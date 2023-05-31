@@ -27,25 +27,25 @@ on:
       RESOURCE_GROUP:
         description: 'Resource Group Name'
         required: true
-        default: 'loony-db-rg'
+        default: 'Databricks-MyProject-MG'
 
       # The Azure region to which to deploy your resources
       LOCATION:
         description: 'Azure Region'
         required: true
-        default: 'EastUS'
+        default: 'EastUS2'
 
       # This is the name of your Azure Databricks resource
       WORKSPACE_NAME:
         description: 'Databricks workspace name'
         required: true
-        default: 'loony-mlops-ws'
+        default: 'Databricks-MyProject-MG'
 
       # This is a KeyVault for holding the Service Principal to make Databricks API calls and to hold Databricks KeyVault backed Secrets
       KEY_VAULT_NAME:
         description: 'KeyVault name'
         required: true
-        default: 'KeyVault-LoonyProject1'
+        default: 'KeyVault-MyProject7'
 
       # This is a KeyVault for holding the Service Principal to make Databricks API calls and to hold Databricks KeyVault backed Secrets
       SUBSCRIPTION_ID:
@@ -132,9 +132,9 @@ jobs:
     needs: Build
     runs-on: ubuntu-latest
     env:
-      resourceGroupName: 'loony-db-rg-Dev'
-      databricksWorkspaceName: 'loony-mlops-ws-Dev'
-      keyVaultName: 'KeyVault-LoonyProject1'
+      resourceGroupName: 'Databricks-MyProject-MG-Dev'
+      databricksWorkspaceName: 'Databricks-MyProject-MG-Dev'
+      keyVaultName: 'KeyVault-MyProject7-Dev'
       NotebookDeploymentPath: '/MyProject'
       GitNotebookPath: 'notebooks/MyProject'
 
@@ -203,8 +203,8 @@ jobs:
       # if: ${{ github.event.inputs.MODE == 'SKIP FOR TESTING' }}
       with:
         inlineScript: |
-          az group create --location 'EastUS' --name 'loony-db-rg-Dev'
-          az deployment group create --resource-group 'loony-db-rg-Dev' --template-file $GITHUB_WORKSPACE/ARM-Templates/azuredeploy.databricks.json --parameters @$GITHUB_WORKSPACE/ARM-Templates/parameters.databricks.json --parameters workspaceName='loony-mlops-ws-Dev'
+          az group create --location 'EastUS2' --name 'Databricks-MyProject-MG-Dev'
+          az deployment group create --resource-group 'Databricks-MyProject-MG-Dev' --template-file $GITHUB_WORKSPACE/ARM-Templates/azuredeploy.databricks.json --parameters @$GITHUB_WORKSPACE/ARM-Templates/parameters.databricks.json --parameters workspaceName='Databricks-MyProject-MG-Dev'
     # Deploy Azure KeyVault
     - name: Deploy ARM Template (KeyVault)
       uses: azure/CLI@v1
@@ -220,7 +220,7 @@ jobs:
         ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
       #if: ${{ github.event.inputs.MODE == 'Databricks' }}
       with:
-        keyvault: 'KeyVault-LoonyProject1-Dev'
+        keyvault: 'KeyVault-MyProject7-Dev'
         secrets: 'databricks-dev-ops-subscription-id,databricks-dev-ops-tenant-id,databricks-dev-ops-client-id,databricks-dev-ops-client-secret'
       id: databricksSecretAction
 
@@ -261,9 +261,9 @@ jobs:
     environment:
         name: Staging
     env:
-      resourceGroupName: 'loony-db-rg-QA'
-      databricksWorkspaceName: 'loony-mlops-ws-QA'
-      keyVaultName: 'KeyVault-LoonyProject1-QA'
+      resourceGroupName: 'Databricks-MyProject-MG-QA'
+      databricksWorkspaceName: 'Databricks-MyProject-MG-QA'
+      keyVaultName: 'KeyVault-MyProject7-QA'
       NotebookDeploymentPath: '/MyProject'
       GitNotebookPath: 'notebooks/MyProject'
 
@@ -332,8 +332,8 @@ jobs:
       # if: ${{ github.event.inputs.MODE == 'SKIP FOR TESTING' }}
       with:
         inlineScript: |
-          az group create --location 'EastUS' --name 'loony-db-rg-QA'
-          az deployment group create --resource-group 'loony-db-rg-QA' --template-file $GITHUB_WORKSPACE/ARM-Templates/azuredeploy.databricks.json --parameters @$GITHUB_WORKSPACE/ARM-Templates/parameters.databricks.json --parameters workspaceName='loony-mlops-ws-QA'
+          az group create --location 'EastUS2' --name 'Databricks-MyProject-MG-QA'
+          az deployment group create --resource-group 'Databricks-MyProject-MG-QA' --template-file $GITHUB_WORKSPACE/ARM-Templates/azuredeploy.databricks.json --parameters @$GITHUB_WORKSPACE/ARM-Templates/parameters.databricks.json --parameters workspaceName='Databricks-MyProject-MG-QA'
     # Deploy Azure KeyVault
     - name: Deploy ARM Template (KeyVault)
       uses: azure/CLI@v1
@@ -390,9 +390,9 @@ jobs:
     environment:
         name: Prod
     env:
-      resourceGroupName: 'loony-db-rg-Prod'
-      databricksWorkspaceName: 'loony-mlops-ws-Prod'
-      keyVaultName: 'KeyVault-LoonyProject1-Prod'
+      resourceGroupName: 'Databricks-MyProject-MG-Prod'
+      databricksWorkspaceName: 'Databricks-MyProject-MG-Prod'
+      keyVaultName: 'KeyVault-MyProject7-Prod'
       NotebookDeploymentPath: '/MyProject'
       GitNotebookPath: 'notebooks/MyProject'
 
@@ -461,8 +461,8 @@ jobs:
       # if: ${{ github.event.inputs.MODE == 'SKIP FOR TESTING' }}
       with:
         inlineScript: |
-          az group create --location 'EastUS' --name 'loony-db-rg-Prod'
-          az deployment group create --resource-group 'loony-db-rg-Prod' --template-file $GITHUB_WORKSPACE/ARM-Templates/azuredeploy.databricks.json --parameters @$GITHUB_WORKSPACE/ARM-Templates/parameters.databricks.json --parameters workspaceName='loony-db-rg-Prod'
+          az group create --location 'EastUS2' --name 'Databricks-MyProject-MG-Prod'
+          az deployment group create --resource-group 'Databricks-MyProject-MG-Prod' --template-file $GITHUB_WORKSPACE/ARM-Templates/azuredeploy.databricks.json --parameters @$GITHUB_WORKSPACE/ARM-Templates/parameters.databricks.json --parameters workspaceName='Databricks-MyProject-MG-Prod'
     # Deploy Azure KeyVault
     - name: Deploy ARM Template (KeyVault)
       uses: azure/CLI@v1
