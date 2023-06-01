@@ -1,6 +1,6 @@
 {
     "num_workers": 0,
-    "cluster_name": "Small",
+    "cluster_name": "Loony_cluster",
     "spark_version": "13.0.x-cpu-ml-scala2.12",
     "spark_conf": {
         "spark.master": "local[*, 4]",
