@@ -9,7 +9,7 @@ registry_uri = f'databricks://modelregistery:modelregistery'
 mlflow.set_registry_uri(registry_uri)
 
 model_name = 'churn-prediction-model'
-run_id = '8ea6ddd0c60849a4a744d1e8a9f61adf'
+run_id = '6abc782e8aee4a44bd8ce6a6421451f8'
 # The default path where the MLflow autologging function stores the model
 artifact_path = 'model'
 model_uri = 'runs:/{run_id}/{artifact_path}'.format(run_id = run_id, artifact_path = artifact_path)
@@ -32,7 +32,7 @@ def predict_churn(model_name, model_stage):
   from mlflow.tracking.client import MlflowClient
   client = MlflowClient()
   model_version = client.get_latest_versions(model_name, stages = [dbutils.widgets.get('Model Stage')])[0].version
-  model_uri = "models:/{model_name}/{dbutils.widgets.get("Model Stage")}".format(model_name = model_name, model_stage = model_stage)
+  model_uri = 'models:/{model_name}/{model_stage}'.format(model_name = model_name, model_stage = model_stage)
   model = mlflow.pyfunc.load_model(model_uri)
   bank_cust_data = pd.read_csv('Bank_Customer.csv')
   X = bank_cust_data.drop(columns = ['churn', 'customer_id'])
@@ -42,7 +42,7 @@ def predict_churn(model_name, model_stage):
   actual_labels = y_train[:10]  
   churn_predictions = pd.DataFrame(model.predict(sample_data))
   print(churn_predictions)
-  plot(model_name, model_stage, model_version, churn_predictions, actual_labels)
+  plot(model_name, model_stage, int(model_version), churn_predictions, actual_labels)
 
 # COMMAND ----------
 
