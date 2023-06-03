@@ -80,12 +80,13 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
 def train_scikitlearn_model(X_train,y_train):
     X_train, X_test, y_train, y_test = get_training_and_test_data()
     categorical_features = ['country', 'gender']
     categorical_transformer = Pipeline(steps = [('encoder', OneHotEncoder(handle_unknown = 'ignore', drop = 'first'))])
     preprocessor = ColumnTransformer(transformers = [('cat', categorical_transformer,categorical_features)], remainder = StandardScaler())
-    clf_pipe = Pipeline(steps = [('preprocessor', preprocessor), ('classifier', RandomForestClassifier())])
+    clf_pipe = Pipeline(steps = [('preprocessor', preprocessor), ('classifier', RandomForestClassifier(n_estimators = 200,max_depth = 10, class_weight = 'balanced'))])
     clf_pipe.fit(X_train,y_train)
     return clf_pipe
 
